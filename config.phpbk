@@ -1,0 +1,130 @@
+<?php
+/**
+ * Inmate360 Configuration
+ * Database and application settings
+ */
+
+// Application Settings
+define('SITE_NAME', 'Inmate360');
+define('SITE_URL', 'https://inmate360.com');
+define('SITE_EMAIL', 'noreply@inmate360.com');
+
+// Database Configuration - MySQL
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME', getenv('DB_NAME') ?: 'inmate3601');
+define('DB_USER', getenv('DB_USER') ?: 'inmate3601');
+define('DB_PASS', getenv('DB_PASS') ?: 'z&8*t53cjucEHmLx');
+
+// Database Configuration
+
+define('DB_PATH', __DIR__ . '/jail_data.db');
+
+define('DB_BACKUP_PATH', __DIR__ . '/backups');
+
+define('DB_BACKUP_RETENTION_DAYS', 30);
+
+// Check if PDO SQLite driver is available
+
+function checkPDOSQLite() {
+
+    if (!extension_loaded('pdo_sqlite')) {
+
+        echo "ERROR: PDO SQLite driver not found!\n\n";
+
+        echo "Please install the SQLite extension:\n";
+
+        echo "Ubuntu/Debian: sudo apt-get install php-sqlite3\n";
+
+        echo "macOS: brew install php\n";
+
+        echo "Windows: Enable extension=pdo_sqlite in php.ini\n\n";
+
+        echo "Available PDO drivers:\n";
+
+        print_r(PDO::getAvailableDrivers());
+
+        echo "\n";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+// Security
+define('SESSION_TIMEOUT', 3600); // 1 hour
+define('MAX_LOGIN_ATTEMPTS', 5);
+define('LOCKOUT_DURATION', 900); // 15 minutes
+
+// Email Settings (Optional)
+define('SMTP_HOST', getenv('SMTP_HOST') ?: '');
+define('SMTP_PORT', getenv('SMTP_PORT') ?: 587);
+define('SMTP_USER', getenv('SMTP_USER') ?: '');
+define('SMTP_PASS', getenv('SMTP_PASS') ?: '');
+
+// Beta Access
+define('BETA_ACCESS_ENABLED', true);
+define('BETA_CODE_LENGTH', 12);
+
+
+/**
+ * Get database connection (MySQL for user data)
+ */
+function getDB() {
+    static $db = null;
+    
+    if ($db === null) {
+        try {
+            $db = new PDO(
+                'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+                DB_USER,
+                DB_PASS,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                ]
+            );
+        } catch (PDOException $e) {
+            error_log("Database connection error: " . $e->getMessage());
+            die("Database connection failed. Please try again later.");
+        }
+    }
+    
+    return $db;
+}
+
+/**
+ * Get SQLite connection (for inmate data cache)
+ */
+function getSQLiteDB() {
+    static $sqlite = null;
+    
+    if ($sqlite === null) {
+        try {
+            $sqlite = new PDO('sqlite:' . DB_PATH);
+            $sqlite->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            error_log("SQLite connection error: " . $e->getMessage());
+            die("Cache database connection failed.");
+        }
+    }
+    
+    return $sqlite;
+}
+
+/**
+ * Log message
+ */
+function logMessage($level, $message, $context = []) {
+    $timestamp = date('Y-m-d H:i:s');
+    $logMessage = "[$timestamp] [$level] $message";
+    
+    if (!empty($context)) {
+        $logMessage .= " " . json_encode($context);
+    }
+    
+    error_log($logMessage);
+}
+?>

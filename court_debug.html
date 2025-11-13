@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Court Scraper Debug</title>
+    <style>
+        body { font-family: monospace; background: #0f0f23; color: #e0e0e0; padding: 20px; }
+        .debug-entry { margin-bottom: 20px; border-left: 3px solid #00cc00; padding-left: 10px; }
+        .debug-title { color: #00ff00; font-weight: bold; }
+        .debug-time { color: #888; font-size: 0.9em; }
+        .debug-message { white-space: pre-wrap; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Court Scraper Debug Log</h1><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Court Scraper initialized</div>
+                <div class="debug-message">Database: /var/www/vhosts/inmate360.com/httpdocs/jail_data.db</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Starting Name Search</div>
+                <div class="debug-message">Last: --debug, First: </div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">HTTP Request (Attempt 1)</div>
+                <div class="debug-message">URL: https://weba.claytoncountyga.gov/casinqcgi-bin/wci011r.pgm</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">POST Data</div>
+                <div class="debug-message">Array
+(
+    [rtype] =&gt; I
+    [dvt] =&gt; C
+    [lname] =&gt; --DEBUG
+    [fname] =&gt; 
+    [submit] =&gt; Search
+)
+</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">HTTP Success</div>
+                <div class="debug-message">Response length: 3760 bytes, HTTP 200</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Cases Found</div>
+                <div class="debug-message">4</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Save Error</div>
+                <div class="debug-message">SQLSTATE[HY000]: General error: 1 table court_cases has no column named status</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Save Error</div>
+                <div class="debug-message">SQLSTATE[HY000]: General error: 1 table court_cases has no column named status</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Save Error</div>
+                <div class="debug-message">SQLSTATE[HY000]: General error: 1 table court_cases has no column named status</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Save Error</div>
+                <div class="debug-message">SQLSTATE[HY000]: General error: 1 table court_cases has no column named status</div>
+            </div><div class="debug-entry">
+                <div class="debug-time">2025-11-07 23:31:23</div>
+                <div class="debug-title">Cases Saved</div>
+                <div class="debug-message">0 of 4</div>
+            </div></body></html>

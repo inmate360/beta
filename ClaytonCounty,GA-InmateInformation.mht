@@ -1,0 +1,169 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://weba.claytoncountyga.gov/utilities/index_test.shtml
+Subject: Clayton County, GA - Inmate Information
+Date: Thu, 6 Nov 2025 03:49:13 -0500
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--rQwwiVceo21ZDq1PGJ9J7AhDiPOvhdbmoGj6ZHPrW8----"
+
+
+------MultipartBoundary--rQwwiVceo21ZDq1PGJ9J7AhDiPOvhdbmoGj6ZHPrW8----
+Content-Type: text/html
+Content-ID: <frame-EF73AEDEE979ECF62F60CC7980FD3EC4@mhtml.blink>
+Content-Transfer-Encoding: binary
+Content-Location: https://weba.claytoncountyga.gov/utilities/index_test.shtml
+
+<!--#include virtual="/utilities/header.html" --><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<title>Clayton County, GA - Inmate Information</title>
+<link href="https://weba.claytoncountyga.gov/utilities/claytonweb.css" rel="stylesheet" type="text/css">
+
+
+
+
+</head>
+
+
+<body>
+<div id="content1">
+
+<table width="775" border="0" cellspacing="2" bgcolor="#F8F8F8" align="default" class="body11">
+<tbody><tr>
+<td><div align="center" class="pgTitle">Inmate Information search </div></td></tr>
+<tr>
+  <td align="center" class="body">Search by Name or Click one of the Search Options Below </td>
+</tr>
+
+
+  <tr><td>
+  </td></tr>
+  <tr><td>
+  	
+  <div id="content">  
+  <form id="form1" name="form1" method="post" action="https://weba.claytoncountyga.gov/sjiinqcgi-bin/wsj200r.pgm">
+  <table width="775" align="center" cellspacing="0" cellpadding="0" class="border1">
+  
+	<tbody><tr align="left" valign="middle" bgcolor="#e8e8e8">
+      <td width="120" height="115" align="left"><strong class="body11">Name:</strong></td>
+      <td width="423"><input name="name" type="text" id="name" size="50" maxlength="70"></td>
+      <td width="200" rowspan="2" class="borderLeft" height:="" 17px"="" valign="middle"><p>Enter the Last Name.&nbsp;Refine your search        by also entering            First Initial or First Name. (First Name is not required) </p>
+        <p>Name Search shows only Active Inmates. </p></td>
+    </tr>
+    
+    
+			  
+	<tr align="left" valign="middle" bgcolor="#e8e8e8">
+      <td width="120" align="left"><strong class="body11">&nbsp;</strong></td>
+      <td width="423" align="center"><input name="NameSearch" type="submit" id="NameSearch" value="Search By Name"><input type="reset" name="Reset" value="Reset"></td>
+    
+    </tr>
+	 <tr bgcolor="#E8E8E8">
+                <td colspan="3" align="center" valign="top" class="body">&nbsp;</td>
+    </tr>
+	
+			  
+  </tbody></table>
+  </form>
+  </div>
+ </td></tr>
+ <tr><td>&nbsp;</td></tr>
+   
+   
+ <tr><td>
+   <div id="content"> 
+  
+	<table width="775" align="center" cellspacing="0" cellpadding="0" class="border1">
+	<tbody><tr align="left" valign="middle" bgcolor="#e8e8e8">
+       <td width="120" height="115" align="left"><strong class="body11">Booking Date:</strong></td>
+	   <td width="423" align="center">
+        <p><br><span class="body"><a href="http://weba.co.clayton.ga.us:8011/sjiinqcgi-bin/wsj210r.pgm?days=02&amp;rtype=F">		48 Hour Docket Book</a>  </span>      </p>
+        <p> <span class="body"><a href="http://weba.co.clayton.ga.us:8011/sjiinqcgi-bin/wsj210r.pgm?days=14&amp;rtype=F">
+        14 Day Docket Book</a> </span></p>
+        <p class="body"><a href="http://cpu8:8011/sjiinqcgi-bin/wsj215r.pgm">
+      31 Day Docket Book</a> </p>        </td>
+	   <td width="200" rowspan="2" class="borderLeft" height:="" 17px"="" valign="middle"><p>Search for Inmates by their Booking Date.          &nbsp; You can search for people booked in during the past 48 hours, 14 days or 31 days. </p>
+       </td>
+	</tr>
+        <tr bgcolor="#E8E8E8">
+                <td colspan="3" align="center" valign="top" class="body">&nbsp;</td>
+    </tr>
+	
+	
+	</tbody></table>
+
+   </div>
+ </td></tr>
+</tbody></table>
+
+</div>
+
+
+</body></html><!--#include virtual="/utilities/footer.html" -->
+------MultipartBoundary--rQwwiVceo21ZDq1PGJ9J7AhDiPOvhdbmoGj6ZHPrW8----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: https://weba.claytoncountyga.gov/utilities/claytonweb.css
+
+@charset "windows-1252";
+
+.body { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: rgb(0, 0, 0); padding: 0px; margin: 5px; }
+
+.blinkingtext { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: rgb(153, 0, 0); text-decoration: blink; }
+
+.borderLeft { border-left: 1px dashed rgb(51, 51, 51); padding-left: 15px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; padding-right: 5px; margin: 5px; }
+
+.rightHeader { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 90%; font-style: italic; font-weight: bold; color: rgb(255, 255, 255); }
+
+#content { height: auto; width: 775px; overflow: hidden; visibility: visible; padding: 5px; border: 1px solid rgb(204, 204, 204); margin: 5px 5px 5px 0px; }
+
+#contenttxa { height: auto; width: 775px; overflow: hidden; visibility: visible; padding: 5px; border: 7px solid rgb(204, 204, 204); background-color: rgb(247, 247, 247); margin: 5px 5px 5px 0px; font-size: 11px; }
+
+#footer { overflow: visible; visibility: visible; padding: 5px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9px; border: 1px solid rgb(204, 204, 204); margin: 5px 0px; width: 775px; text-align: center; }
+
+#rightFloat { border: 1px solid rgb(204, 204, 204); height: auto; width: auto; z-index: 1; float: right; }
+
+.body11 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: rgb(0, 0, 0); padding: 5px; left: 0px; margin: 5px; }
+
+.body11b { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; color: rgb(153, 0, 0); padding: 5px; left: 0px; margin: 5px; }
+
+.brdrDbl { padding-right: 10px; padding-left: 10px; border: thin solid rgb(204, 204, 204); }
+
+.brdrDblTopBot { padding-right: 10px; padding-left: 10px; border-width: thin; border-style: dashed none; border-color: rgb(153, 0, 0); }
+
+#content1 { height: auto; width: 745px; overflow: visible; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 5px 0px; }
+
+#content1b { height: auto; width: 780px; overflow: visible; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 5px 0px; }
+
+#content2 { height: auto; width: 745px; overflow: visible; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 5px; }
+
+#content3 { height: auto; width: 745px; overflow: visible; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 5px; }
+
+.PrvNxtBtn { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9px; color: rgb(102, 102, 102); border: 1px solid rgb(204, 204, 204); margin: 5px; padding: 0px 5px; font-variant: small-caps; text-decoration: none; }
+
+#content4 { height: auto; width: 745px; overflow: visible; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 5px; }
+
+#content5 { height: auto; width: 745px; overflow: visible; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 5px; }
+
+#content7 { height: auto; width: 745px; overflow: hidden; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 0px; }
+
+.SrchBtn { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: rgb(102, 102, 102); border: 1px solid rgb(204, 204, 204); margin: 5px; padding: 0px 5px; font-variant: small-caps; font-weight: normal; text-decoration: none; }
+
+.lastUpdate { overflow: visible; visibility: visible; padding: 5px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9px; border: none; margin: 5px; width: 775px; text-align: center; }
+
+.pgTitle { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; font-variant: small-caps; color: rgb(0, 0, 0); font-style: oblique; line-height: 25px; }
+
+.PrntBtnCopy { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: rgb(102, 102, 102); border: 1px solid rgb(204, 204, 204); margin: 5px; padding: 0px 5px; font-variant: small-caps; font-weight: normal; text-decoration: none; }
+
+#content6 { height: auto; width: 745px; overflow: visible; visibility: visible; padding: 0px; border: 1px solid rgb(204, 204, 204); margin: 5px; }
+
+.pgTitleburgundy { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; font-variant: small-caps; color: rgb(153, 0, 0); font-style: oblique; line-height: 25px; }
+
+.highlight { border: thin solid rgb(255, 255, 51); background-color: rgb(255, 255, 0); }
+
+.table_grayborder { border: 1px solid rgb(204, 204, 204); padding: 5px; }
+
+.table_maroonborder { border: 1px solid rgb(153, 0, 0); padding: 5px; margin: 5px; }
+
+.SrchBtn2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: rgb(255, 255, 255); border: 2px outset rgb(255, 255, 255); margin: 5px; padding: 1px 5px; font-variant: small-caps; font-weight: normal; text-decoration: none; background-color: rgb(58, 97, 114); }
+------MultipartBoundary--rQwwiVceo21ZDq1PGJ9J7AhDiPOvhdbmoGj6ZHPrW8------
