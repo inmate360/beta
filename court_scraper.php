@@ -13,6 +13,7 @@ require_once 'config.php';
 class CourtScraper {
     private $db;
     private $baseUrl;
+    private $retryCount = 0;
     private $debugInfo = [];
     private $debugEnabled = true;
 
@@ -21,8 +22,8 @@ class CourtScraper {
         $this->db = new PDO('sqlite:' . DB_PATH);
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        // Allow overriding base URL (for search-by-name endpoints)
-        $this->baseUrl = $baseUrl ?? 'https://weba.claytoncountyga.gov/casinqcgi-bin/wci011r.pgm';
+        // Use the base URL from config.php for the main scrape
+        $this->baseUrl = $baseUrl ?? COURT_SCRAPE_BASE_URL;
         $this->debugEnabled = $debug;
 
         // Initialize database schema if needed
@@ -165,37 +166,47 @@ class CourtScraper {
     }
 
     /**
-     * Scrape a single page
+     * Scrape a single page with retry logic
      */
     private function scrapePage($url) {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, TIMEOUT);
-        curl_setopt($ch, CURLOPT_USERAGENT, USER_AGENT);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $html = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $this->retryCount = 0;
+        while ($this->retryCount < MAX_RETRIES) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, TIMEOUT);
+            curl_setopt($ch, CURLOPT_USERAGENT, USER_AGENT);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $html = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
 
-        if ($httpCode !== 200 || !$html) {
-            return false;
+            if ($httpCode === 200 && $html) {
+                if ($this->debugEnabled) {
+                    file_put_contents(__DIR__ . '/court_debug_page.html', $html);
+                }
+                
+                libxml_use_internal_errors(true);
+                $doc = new DOMDocument();
+                $doc->loadHTML($html);
+                libxml_clear_errors();
+                $xpath = new DOMXPath($doc);
+
+                $cases = $this->parseCases($xpath);
+                $nextUrl = $this->findNextPageUrl($xpath, $url);
+
+                return ['cases' => $cases, 'next_url' => $nextUrl];
+            }
+
+            $this->retryCount++;
+            $delay = RETRY_DELAY * pow(2, $this->retryCount - 1); // Exponential backoff
+            $this->addDebugInfo('HTTP Request Failed (Retry ' . $this->retryCount . ')', "URL: $url, HTTP Code: $httpCode, cURL Error: $curlError. Retrying in $delay seconds...");
+            sleep($delay);
         }
 
-        if ($this->debugEnabled) {
-            file_put_contents(__DIR__ . '/court_debug_page.html', $html);
-        }
-
-        libxml_use_internal_errors(true);
-        $doc = new DOMDocument();
-        $doc->loadHTML($html);
-        libxml_clear_errors();
-        $xpath = new DOMXPath($doc);
-
-        $cases = $this->parseCases($xpath);
-        $nextUrl = $this->findNextPageUrl($xpath, $url);
-
-        return ['cases' => $cases, 'next_url' => $nextUrl];
+        $this->addDebugInfo('HTTP Request Failed Permanently', "URL: $url, Max retries reached.");
+        return false;
     }
 
     /**
@@ -267,9 +278,24 @@ class CourtScraper {
             }
         }
 
-        $this->addDebugInfo('Pagination', "No 'Next' link found with any pattern.");
-        return null;
-    }
+	        $this->addDebugInfo('Pagination', "No 'Next' link found with any pattern.");
+	        return null;
+	    }
+	
+	    /**
+	     * Log scrape result to the database
+	     */
+	    private function logScrape($casesFound, $status, $message) {
+	        try {
+	            $stmt = $this->db->prepare("
+	                INSERT INTO court_scrape_logs (scrape_time, cases_found, status, message)
+	                VALUES (CURRENT_TIMESTAMP, ?, ?, ?)
+	            ");
+	            $stmt->execute([$casesFound, $status, $message]);
+	        } catch (Exception $e) {
+	            $this->addDebugInfo('Scrape Log Error', $e->getMessage());
+	        }
+	    }
     
     /**
      * Resolve relative URLs to absolute
@@ -348,42 +374,51 @@ class CourtScraper {
      *   ...
      * ]
      */
-    public function searchByName($firstName, $lastName) {
-        $first = trim($firstName);
-        $last = trim($lastName);
-
-        if (empty($last)) {
-            throw new InvalidArgumentException('Last name is required to search court records.');
-        }
-
-        // Build search URL (observed pattern)
-        $params = [
-            'rtype' => 'E',
-            'dvt'   => 'C',
-            'ctt'   => 'A',
-            'lname' => $last,
-            'fname' => $first
-        ];
-        $url = $this->baseUrl . '?' . http_build_query($params);
-
-        $this->addDebugInfo('SearchByName URL', $url);
-
-        // Fetch page
-        $html = $this->fetchRaw($url);
-        if ($html === false) {
-            return [];
-        }
-
-        // Parse results
-        $results = $this->parseSearchResults($html);
-
-        // Save debug page if enabled
-        if ($this->debugEnabled) {
-            file_put_contents(__DIR__ . '/court_search_page.html', $html);
-        }
-
-        return $results;
-    }
+	    public function searchByName($firstName, $lastName) {
+	        $first = trim($firstName);
+	        $last = trim($lastName);
+	
+	        if (empty($last)) {
+	            throw new InvalidArgumentException('Last name is required to search court records.');
+	        }
+	
+	        // Build search URL (observed pattern)
+	        $params = [
+	            'rtype' => 'E',
+	            'dvt'   => 'C',
+	            'ctt'   => 'A',
+	            'lname' => $last,
+	            'fname' => $first
+	        ];
+	        $url = 'https://weba.claytoncountyga.gov/casinqcgi-bin/wci011r.pgm?' . http_build_query($params); // Use the direct search URL
+	
+	        $this->addDebugInfo('SearchByName URL', $url);
+	
+	        $this->retryCount = 0;
+	        while ($this->retryCount < MAX_RETRIES) {
+	            // Fetch page
+	            $html = $this->fetchRaw($url);
+	            
+	            if ($html !== false) {
+	                // Parse results
+	                $results = $this->parseSearchResults($html);
+	
+	                // Save debug page if enabled
+	                if ($this->debugEnabled) {
+	                    file_put_contents(__DIR__ . '/court_search_page.html', $html);
+	                }
+	
+	                return $results;
+	            }
+	
+	            $this->retryCount++;
+	            $delay = RETRY_DELAY * pow(2, $this->retryCount - 1); // Exponential backoff
+	            $this->addDebugInfo('Ad-hoc Search Failed (Retry ' . $this->retryCount . ')', "URL: $url. Retrying in $delay seconds...");
+	            sleep($delay);
+	        }
+	
+	        throw new Exception("Failed to get search results after " . MAX_RETRIES . " retries.");
+	    }
 
     /**
      * Fetch raw HTML (small helper for searchByName)
@@ -537,4 +572,19 @@ class CourtScraper {
         return $cases;
     }
 
+}
+
+// Run the scraper if executed directly
+if (basename(__FILE__) == basename($_SERVER['PHP_SELF'])) {
+    $debug = in_array('--debug', $argv);
+    $scraper = new CourtScraper($debug);
+    
+    try {
+        $scraper->scrapeAll();
+    } catch (Exception $e) {
+        // Log the fatal error to the database
+        $scraper->logScrape(0, 'error', 'Fatal error during scrape: ' . $e->getMessage());
+        echo "Fatal error: " . $e->getMessage() . "\n";
+        exit(1);
+    }
 }
